@@ -30,8 +30,8 @@ if __name__ == "__main__":
     embed_dim = 96
     depths = [2, 2, 6, 2]
     num_heads = [3, 6, 12, 24]
-    learning_rate = 1e-3
-    decay = 5e-3
+    learning_rate = 1e-4
+    decay = 5e-5
     epochs = 200
     save_root = increment_path("/content/drive/MyDrive/Emotional/runs/exp", exist_ok=False)
     save_ckpt_path = save_root + "/" + "checkpoint.pth"
@@ -74,7 +74,7 @@ if __name__ == "__main__":
                             )
 
     criterion = LabelSmoothingCrossEntropy()
-    optimizer = AdamW(model.parameters(), lr=learning_rate, weight_decay=decay, betas=(0.937, 0.999))
+    optimizer = AdamW(model.parameters(), lr=learning_rate, weight_decay=decay)
     lr_scheduler = get_lr_scheduler(optimizer, epochs=epochs)
 
     if pretrained_weights.endswith(".pth") and os.path.isfile(pretrained_weights):
@@ -118,6 +118,8 @@ if __name__ == "__main__":
 
         test_pdar = tqdm(testloader, desc=f"Evaluating")
         test_loss, test_acc1, test_acc2 = evaluate(model, test_pdar, criterion, device)
+
+        lr_scheduler.step()
 
         if use_tensorboard:
             writer.add_scalars(
