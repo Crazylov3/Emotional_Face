@@ -13,6 +13,7 @@ class EmotionalDataSet(Dataset):
         self.transformer = transformer
         self.cache_train = cache_train
         self.cache = None
+        self.root = root
         if cache_train:
             if os.path.isfile(cache_path):
                 cache = torch.load(cache_path)
@@ -29,7 +30,7 @@ class EmotionalDataSet(Dataset):
     def get_cache(self):
         cache = []
         for i in tqdm(range(len(self)), desc="Caching data: "):
-            path = self.df.iloc[i, 0]
+            path = os.path.join(self.root, self.df.iloc[i, 0])
             c = self.df.iloc[i, 1]
             img = Image.open(path).convert('L')
             cache.append([img, c])
@@ -44,7 +45,7 @@ class EmotionalDataSet(Dataset):
 
     def __getitem__(self, idx):
         if not self.cache_train:
-            path = self.df.iloc[idx, 0]
+            path = os.path.join(self.root, self.df.iloc[idx, 0])
             cls = self.df.iloc[idx, 1]
             img = Image.open(path).convert('L')
         else:
