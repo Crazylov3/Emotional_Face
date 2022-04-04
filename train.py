@@ -37,7 +37,7 @@ if __name__ == "__main__":
     save_ckpt_path = save_root + "/" + "checkpoint.pth"
     pretrained_weights = ""
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    save_epoch = 10
+    save_epoch = 5
     use_tensorboard = True
     use_wandb = True
     cache_train = True
@@ -79,11 +79,12 @@ if __name__ == "__main__":
 
     if pretrained_weights.endswith(".pth") and os.path.isfile(pretrained_weights):
         try:
-            state_dict, start_epoch, optim, lr_, loss, acc = load_checkpoint(save_ckpt_path)
+            state_dict, start_epoch, optim, lr_, loss, acc = load_checkpoint(pretrained_weights)
             model.load_state_dict(state_dict)
             optimizer.load_state_dict(optim)
             lr_scheduler.load_state_dict(lr_)
             best_acc1, best_acc2 = acc
+            print(f"Loaded checkpoint from {pretrained_weights}")
         except:
             ckpt = torch.load(pretrained_weights)["model"]
             state_dict = intersect_dicts(ckpt, model.state_dict())
