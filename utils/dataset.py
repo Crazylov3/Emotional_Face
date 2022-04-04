@@ -18,7 +18,7 @@ class EmotionalDataSet(Dataset):
             if os.path.isfile(cache_path):
                 cache = torch.load(cache_path)
                 if self.get_hash(df, root) == cache["hash"]:
-                    self.cache = cache["dataa"]
+                    self.cache = cache["data"]
             if self.cache is None:
                 self.cache = self.get_cache()
                 torch.save({

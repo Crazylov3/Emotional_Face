@@ -29,7 +29,7 @@ def load_checkpoint(path):
     epoch = ckpt["epoch"]
     optim = ckpt["optimizer"]
     loss = ckpt["loss"]
-    lr_scheduler = ckpt["loss"]
+    lr_scheduler = ckpt["lr_scheduler"]
     acc = ckpt["acc"]
     return state_dict, epoch, optim, lr_scheduler, loss, acc
 

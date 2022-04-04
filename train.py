@@ -87,7 +87,7 @@ if __name__ == "__main__":
         except:
             ckpt = torch.load(pretrained_weights)["model"]
             state_dict = intersect_dicts(ckpt, model.state_dict())
-            model.load_state_dict(state_dict)
+            model.load_state_dict(state_dict, strict = False)
             start_epoch = 1
             best_acc1 = best_acc2 = 0
     else:

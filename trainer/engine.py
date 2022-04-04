@@ -48,7 +48,7 @@ def evaluate(model, pdar, criterion, device):
     loss_metric = AverageMeter()
     acc1_metric = AverageMeter()
     acc2_metric = AverageMeter()
-    for batch_idx, (img, target) in pdar:
+    for img, target in pdar:
         img = img.to(device)
         target = target.to(device)
         oup = model(img)
